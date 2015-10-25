@@ -1,4 +1,9 @@
-class profile::puppetmaster {
+class profile::puppetmaster (
+  String $gms_api_token         = hiera('gms_api_token', ''),
+  String $gms_server_url        = hiera('gms_server_url'),
+  String $git_management_system = hiera('git_management_system', 'gitlab'),
+  String $project_name          = hiera('project_name', 'puppet/control-repo'),
+) {
 
   class { 'hiera':
     hierarchy  => [
@@ -20,29 +25,35 @@ class profile::puppetmaster {
     creates => $r10k_ssh_key_file,
   }
   #END - Generate an SSH key for r10k to connect to git  
- 
-  #BEGIN - Add deploy key and webook to git management system
-  $git_management_system = hiera('git_management_system', '')
 
-  if $git_management_system in ['gitlab', 'github'] {
-   
-    git_deploy_key { "add_deploy_key_to_puppet_control-${fqdn}":
+  #BEGIN - Add deploy key and webook to git management system
+
+  if ($git_management_system in ['gitlab', 'github']) and ($gms_api_token != '') {
+
+    git_deploy_key { "add_deploy_key_to_puppet_control-${::fqdn}":
       ensure       => present,
       name         => $::fqdn,
       path         => "${r10k_ssh_key_file}.pub",
-      token        => hiera('gms_api_token'),
-      project_name => 'puppet/control-repo',
-      server_url   => hiera('gms_server_url'),
+      token        => $gms_api_token,
+      project_name => $project_name,
+      server_url   => $gms_server_url,
       provider     => $git_management_system,
     }
-  
-    git_webhook { 'web_post_receive_webhook' :
-      ensure       => present,
-      webhook_url  => "http://${fqdn}:8088/payload",
-      token        => hiera('gms_api_token'),
-      project_name => 'puppet/control-repo',
-      server_url   => hiera('gms_server_url'),
-      provider     => $git_management_system,
+
+    Git_webhook {
+      ensure               => present,
+      token                => $gms_api_token,
+      merge_request_events => false,
+      project_name         => $project_name,
+      server_url           => $gms_server_url,
+      provider             => $git_management_system,
+    }
+
+    git_webhook { "web_post_receive_webhook_payload_compile_${::fqdn}" :
+      webhook_url  => "http://${::fqdn}:8088/payload",
+    }
+    git_webhook { "web_post_receive_webhook_module_compile_${::fqdn}" :
+      webhook_url  => "http://${::fqdn}:8088/module",
     }
 
   }
