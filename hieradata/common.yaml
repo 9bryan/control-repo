@@ -6,9 +6,5 @@ puppet_enterprise::master::puppetserver::jruby_max_requests_per_instance: 10000
 
 #GitLab Settings
 git_management_system: 'gitlab'
-gms_server_url: 'https://centos6b.syd.puppetlabs.demo'
+gms_server_fqdn: 'centos6b.syd.puppetlabs.demo'
 gms_api_token: 'EiyVTut3QqyL7jY--yzN'
-mom_server_url: 'http://master.inf.puppetlabs.demo'
-compile_masters_urls:
-  - http://centos1compile.pdx.puppetlabs.demo
-  - http://centos2compile.pdx.puppetlabs.demo

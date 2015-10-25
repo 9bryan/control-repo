@@ -1,6 +1,6 @@
 class profile::puppetmaster (
   String $gms_api_token         = hiera('gms_api_token', ''),
-  String $gms_server_url        = hiera('gms_server_url'),
+  String $gms_server_fqdn       = hiera('gms_server_fqdn'),
   String $git_management_system = hiera('git_management_system', 'gitlab'),
   String $project_name          = hiera('project_name', 'puppet/control-repo'),
 ) {
@@ -28,6 +28,26 @@ class profile::puppetmaster (
 
   #BEGIN - Add deploy key and webook to git management system
 
+  class { 'pe_r10k':
+    remote       => "git@${gms_server_fqdn}:${project_name}.git",
+    git_settings => {
+      'provider'    => 'rugged',
+      'private_key' => '/root/.ssh/r10k_rsa',
+    },
+  }
+
+  class {'r10k::webhook::config':
+    enable_ssl      => false,
+    protected       => false,
+    use_mcollective => false,
+  }
+
+  class {'r10k::webhook':
+    user    => 'root',
+    group   => '0',
+    require => Class['r10k::webhook::config'],
+  }
+
   if ($git_management_system in ['gitlab', 'github']) and ($gms_api_token != '') {
 
     git_deploy_key { "add_deploy_key_to_puppet_control-${::fqdn}":
@@ -36,7 +56,7 @@ class profile::puppetmaster (
       path         => "${r10k_ssh_key_file}.pub",
       token        => $gms_api_token,
       project_name => $project_name,
-      server_url   => $gms_server_url,
+      server_url   => "https://${gms_server_fqdn}",
       provider     => $git_management_system,
     }
 
@@ -45,7 +65,7 @@ class profile::puppetmaster (
       token                => $gms_api_token,
       merge_request_events => false,
       project_name         => $project_name,
-      server_url           => $gms_server_url,
+      server_url           => "https://${gms_server_fqdn}",
       provider             => $git_management_system,
     }
 
