@@ -1,4 +1,4 @@
-class role::all_in_one_pe {
+class role::compile_master {
 
   include profile::puppetmaster
 
