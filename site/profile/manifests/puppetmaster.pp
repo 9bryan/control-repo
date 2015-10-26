@@ -69,20 +69,14 @@ class profile::puppetmaster (
       provider     => $git_management_system,
     }
 
-    Git_webhook {
+    git_webhook { "web_post_receive_webhook_payload_${::fqdn}" :
       ensure               => present,
+      webhook_url          => "http://${::fqdn}:8088/payload",
       token                => $gms_api_token,
       merge_request_events => false,
       project_name         => $project_name,
       server_url           => "https://${gms_server_fqdn}",
       provider             => $git_management_system,
-    }
-
-    git_webhook { "web_post_receive_webhook_payload_compile_${::fqdn}" :
-      webhook_url  => "http://${::fqdn}:8088/payload",
-    }
-    git_webhook { "web_post_receive_webhook_module_compile_${::fqdn}" :
-      webhook_url  => "http://${::fqdn}:8088/module",
     }
 
   }
