@@ -1,3 +1,13 @@
+# My way
+1. install PE all-in-one master with installer
+2. rm -rf /etc/puppetlabs/code/environments/production, git clone this repo as 'production'
+3. bring up a node to be the gitlab server, install PE agent from master, classify with profile::gitlab, run puppet
+4. log into gitlab as root, create r10k_api_user, create user for you, create 'puppet' group and 'control-repo' project
+5. make users above 'Master' members of the puppet/control-repo project
+6. add you ssh key to your user from dev machine, git clone this repo, set remote to be gitlab, push
+7. log in as r10k_api_user, find the api token, classify master with profile::puppetmaster in console and set api token param
+8. run puppet on master. :)
+
 # Before Starting: 
 
 This control repo and the steps below are intended to be used during a new installation of PE.  
