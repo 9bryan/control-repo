@@ -1,5 +1,3 @@
-# Did it again!
-# Yes, I did!!!!!
 # Before Starting: 
 
 This control repo and the steps below are intended to be used during a new installation of PE.  
