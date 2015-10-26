@@ -8,6 +8,7 @@
 7. log in as r10k_api_user, find the api token, classify master with profile::puppetmaster in console and set api token param
 8. run puppet on master. :)
 
+To-do: open ports like 4433, 8123, 8081 on MoM only for API access.
 # Before Starting: 
 
 This control repo and the steps below are intended to be used during a new installation of PE.  
