@@ -2,6 +2,12 @@ class profile::gitlab (
   String $gms_server_url = "https://${::fqdn}",
 ) {
 
+  firewall { '100 allow https':
+    proto   => 'tcp',
+    dport   => '443',
+    action  => 'accept',
+  }
+
   file { ['/etc/gitlab', '/etc/gitlab/ssl'] :
     ensure => directory,
   }
