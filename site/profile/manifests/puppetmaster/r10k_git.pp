@@ -6,13 +6,13 @@ class profile::puppetmaster::r10k_git (
   String  $r10k_ssh_key_file,
 ) {
 
-  class { 'pe_r10k':
-    remote       => "git@${gms_server_fqdn}:${project_name}.git",
-    git_settings => {
-      'provider'    => 'rugged',
-      'private_key' => '/root/.ssh/r10k_rsa',
-    },
-  }
+  #class { 'pe_r10k':
+  #  remote       => "git@${gms_server_fqdn}:${project_name}.git",
+  #  git_settings => {
+  #    'provider'    => 'rugged',
+  #    'private_key' => '/root/.ssh/r10k_rsa',
+  #  },
+  #}
 
   # Add deploy key and webook to git management system
   if ($git_management_system in ['gitlab', 'github']) and ($gms_api_token != '') {
