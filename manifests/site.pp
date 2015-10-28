@@ -46,7 +46,7 @@ node default {
     if $trusted['extensions']['pp_role'] == 'master_of_masters' {
       include profile::puppetmaster::firewall
     }
-    else {
+    elsif $trusted['extensions']['pp_role'] != 'compile_master' {
       include "role::${trusted['extensions']['pp_role']}"
     }
   }
