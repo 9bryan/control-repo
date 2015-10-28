@@ -41,9 +41,12 @@ node default {
   #incude a role on any node that specifies it's role via a trusted fact at provision time
   #https://docs.puppetlabs.com/puppet/latest/reference/lang_facts_and_builtin_vars.html#trusted-facts
   #https://docs.puppetlabs.com/puppet/latest/reference/ssl_attributes_extensions.html#aws-attributes-and-extensions-population-example
-  
+
   if !empty( $trusted['extensions']['pp_role'] ) {
-    include "role::${trusted['extensions']['pp_role']}"
+    #include "role::${trusted['extensions']['pp_role']}"
+    if $trusted['extensions']['pp_role'] == 'master_of_masters' {
+      include profile::puppetmaster::firewall
+    }
   }
 
   # This is where you can declare classes for all nodes.
