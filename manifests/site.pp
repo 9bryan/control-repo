@@ -43,8 +43,8 @@ node default {
   #https://docs.puppetlabs.com/puppet/latest/reference/ssl_attributes_extensions.html#aws-attributes-and-extensions-population-example
 
   if !empty( $trusted['extensions']['pp_role'] ) {
-    if $trusted['extensions']['pp_role'] == 'master_of_masters' or $trusted['extensions']['pp_role'] == 'compile_master' {
-      include profile::puppetmaster
+    if $trusted['extensions']['pp_role'] == 'master_of_masters' {
+      include profile::puppetmaster::firewall
     }
     else {
       include "role::${trusted['extensions']['pp_role']}"
