@@ -5,6 +5,7 @@ forge "http://forge.puppetlabs.com"
 # installed you should change them to the exact version you want
 mod "puppetlabs/dhcp", :latest
 mod "puppetlabs/tftp", :latest
+mod "puppetlabs/xinetd", :latest
 mod "Lavaburn/razor", :latest
 mod "puppetlabs/haproxy", :latest
 mod "puppetlabs/firewall", :latest
