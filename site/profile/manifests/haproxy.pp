@@ -13,4 +13,10 @@ class profile::haproxy {
     },
   }
 
+  firewall { '100 allow puppet':
+    dport  => '8140',
+    proto  => 'tcp',
+    action => 'accept',
+  }
+
 }
