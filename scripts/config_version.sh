@@ -9,18 +9,18 @@
 
 # Get the hash of the latest commit
 sha=$(git --git-dir \
-  /etc/puppetlabs/puppet/environments/$1/.git rev-parse HEAD)
+  /etc/puppetlabs/code/environments/$1/.git rev-parse HEAD)
 
 message=$(git --git-dir \
-  /etc/puppetlabs/puppet/environments/$1/.git log -1 --pretty='%s')
+  /etc/puppetlabs/code/environments/$1/.git log -1 --pretty='%s')
 
 # Get the address for remote origin
 remote=$(git --git-dir \
-  /etc/puppetlabs/puppet/environments/$1/.git config --get remote.origin.url)
+  /etc/puppetlabs/code/environments/$1/.git config --get remote.origin.url)
 
 # Sanitize the git remote to be an http url.
 #url=$(echo "${remote}"|/bin/sed -e 's/git@//g; s/:/\//g; s/.git$//g')
-url=$(echo "${remote}"| awk -F'[@:]' '{ sub(/.git$/,"");print "http://"$2"/"$3}')
+url=$(echo "${remote}"| awk -F'[@:]' '{ sub(/.git$/,"");print "https://"$2"/"$3}')
 
 # Return a full URL for it
 echo "[${message}](${url}/tree/${sha})"
