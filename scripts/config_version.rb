@@ -1,17 +1,14 @@
+#!/opt/puppetlabs/puppet/bin/ruby
+
 require 'rugged'
 
-environmentpath = ARGV[0]
-environment     = ARGV[1]
+environment = ARGV[0]
 
-repo = Rugged::Repository.discover(File.join(environmentpath, environment))
+repo = Rugged::Repository.discover("/etc/puppetlabs/code/environments/#{environment}")
 head  = repo.head
+sha = head.target.oid
+message = head.target.message.strip
+remote = repo.config.to_hash['remote.origin.url']
+url = remote.gsub(/.git$/, '')
 
-#sha1 hash of the newest commit
-head_sha = head.target_id
-
-#the commit message associated the newest commit
-commit = repo.lookup(head_sha)
-
-#add something to find the remote url
-
-puts head_sha
+print "[#{message}](#{url}/tree/#{sha})"

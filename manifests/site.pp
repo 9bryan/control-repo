@@ -52,8 +52,6 @@ node default {
   if !empty( $trusted['extensions']['pp_role'] ) {
     if $trusted['extensions']['pp_role'] == 'master_of_masters' {
       include profile::puppetmaster::firewall
-
-      package { 'git': ensure => installed, }
     }
     elsif $trusted['extensions']['pp_role'] != 'compile_master' {
       include "role::${trusted['extensions']['pp_role']}"
