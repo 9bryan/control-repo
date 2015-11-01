@@ -1,5 +1,7 @@
 class profile::haproxy {
 
+  require profile::iptables
+
   class { 'haproxy': }
 
   haproxy::listen { 'puppet00':

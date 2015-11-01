@@ -1,5 +1,7 @@
 class profile::dhcp {
 
+  require profile::iptables
+
   class { 'dhcp':
     service_ensure => running,
     dnsdomain      => [
