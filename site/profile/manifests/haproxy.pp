@@ -10,7 +10,7 @@ class profile::haproxy {
     ipaddress        => $::networking[interfaces][enp0s8][ip],
     ports            => '8140',
     options          => {
-      'option'       => [ 'tcplog' ],
+      'option'  => [ 'tcplog' ],
       'balance' => 'roundrobin',
     },
   }

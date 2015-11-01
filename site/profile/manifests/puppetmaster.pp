@@ -28,7 +28,7 @@ class profile::puppetmaster (
   }
 
   # If I'm a compile master, add me to the load balancer pool
-  if $trusted['extensions']['pp_role'] == compile_master {
+  if $::trusted['extensions']['pp_role'] == compile_master {
     @@haproxy::balancermember { $::fqdn:
       listening_service => 'puppet00',
       ports             => '8140',
