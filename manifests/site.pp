@@ -38,13 +38,14 @@ File { backup => 'main' }
 # specified in the console for that node.
 
 node default {
+  include profile::motd
   # trying to get an os-agnostic way to get 2nd interface (ala eth0, eth1, etc)
-  $eth1 = keys($::networking['interfaces'])[1]
-  @@host { $::fqdn:
-    ip           => $::networking['interfaces'][$eth1]['ip'],
-    host_aliases => [$::hostname],
-  }
-  Host <<| |>>
+  #$eth0 = keys($::networking['interfaces'])[0]
+  #@@host { $::fqdn:
+  #  ip           => $::networking['interfaces'][$eth0]['ip'],
+  #  host_aliases => [$::hostname],
+  #}
+  #Host <<| |>>
   #incude a role on any node that specifies it's role via a trusted fact at provision time
   #https://docs.puppetlabs.com/puppet/latest/reference/lang_facts_and_builtin_vars.html#trusted-facts
   #https://docs.puppetlabs.com/puppet/latest/reference/ssl_attributes_extensions.html#aws-attributes-and-extensions-population-example

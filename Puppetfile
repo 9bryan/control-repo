@@ -17,6 +17,8 @@ mod "saz/ssh", :latest
 mod "puppetlabs/postgresql",  '4.5.0'
 mod "puppet/stash",           '1.3.0'
 mod "puppetlabs/java",        '1.4.1'
+mod "zanloy/figlet", :latest
+mod "stahnma/epel", :latest
 
 #An example of using a specific forge module version instead of latest
 #Notice the addition of single quotes
