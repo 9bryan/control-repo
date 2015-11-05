@@ -1,15 +1,20 @@
 class profile::dhcp {
 
-  require profile::iptables
-
   class { 'dhcp':
     service_ensure => running,
-    dnsdomain      => [ 'puppetlabs.demo', ],
-    nameservers    => ['8.8.8.8'],
-    interfaces     => ['eth1'],
-    pxeserver      => '10.20.1.53',
-    pxefilename    => 'undionly-20140116.kpxe',
-    #omapi_port     => 7911,
+    dnsdomain      => [
+      'puppetlabs.demo',
+    ],
+    nameservers  => ['8.8.8.8'],
+    interfaces   => ['eth1'],
+    extra_config  => @(EOF)
+      next-server 10.20.1.53;
+      if exists user-class and option user-class = "iPXE" {
+          filename "bootstrap.ipxe";
+      } else {
+          filename "undionly.kpxe";
+      }
+      | EOF
   }
 
   dhcp::pool{ 'puppetlabs.demo':
