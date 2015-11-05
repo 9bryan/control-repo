@@ -1,4 +1,6 @@
-class profile::dhcp {
+class profile::dhcp (
+  $razor_server_ip = '',
+){
 
   class { 'dhcp':
     service_ensure => running,
@@ -7,8 +9,8 @@ class profile::dhcp {
     ],
     nameservers  => ['8.8.8.8'],
     interfaces   => ['eth1'],
-    extra_config  => @(EOF)
-      next-server 10.20.1.53;
+    extra_config  => @("EOF")
+      next-server ${razor_server_ip};
       if exists user-class and option user-class = "iPXE" {
           filename "bootstrap.ipxe";
       } else {
