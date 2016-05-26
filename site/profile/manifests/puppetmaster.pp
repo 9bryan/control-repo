@@ -1,6 +1,6 @@
 class profile::puppetmaster (
   String  $gms_api_token         = '',
-  String  $gms_server_fqdn       = 'gitlab.puppetlabs.demo',
+  String  $gms_server_fqdn       = 'gitlab.inf.puppet.vm',
   String  $git_management_system = 'gitlab',
   String  $project_name          = 'puppet/control-repo',
   String  $r10k_ssh_key_file     = '/root/.ssh/r10k_rsa',
